@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.wafflestudio.spring2025.common.enum.Semester
 import com.wafflestudio.spring2025.course.repository.CourseRepository
 import com.wafflestudio.spring2025.helper.DataGenerator
+import com.wafflestudio.spring2025.helper.mock.MockRedis
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
@@ -25,6 +27,7 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @ActiveProfiles("test")
 @Testcontainers
 @AutoConfigureMockMvc
+@ContextConfiguration(initializers = [MockRedis::class])
 @Disabled("실제 서울대 사이트를 호출하므로 수동으로 실행")
 class CourseFetchIntegrationTest
     @Autowired
