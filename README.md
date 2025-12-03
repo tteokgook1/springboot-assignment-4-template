@@ -18,3 +18,4 @@
   - 요청을 보낼 수 있는 API endpoint
   - 12/7 까지
   - Grace day 4일 이상 사용 불가
+
