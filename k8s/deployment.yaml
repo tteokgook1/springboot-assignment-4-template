@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-backend-app
+  labels:
+    app: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend-container
+          image: ghcr.io/tteokgook1/springboot-assignment-4-template:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            # --- Redis 설정 ---
+            - name: SPRING_DATA_REDIS_HOST
+              value: "redis-1764763037-master"
+            - name: SPRING_DATA_REDIS_PORT
+              value: "6379"
+            - name: SPRING_DATA_REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: redis-password
+            # --- DB 설정 ---
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://mysql-1764763000:3306/seminar2025?useSSL=false&allowPublicKeyRetrieval=true"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "root"
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: db-password

@@ -55,3 +55,20 @@ jobs:
           cache-to: type=gha,mode=max
 
 
+      - name: Copy k8s files to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "./k8s/*"
+          target: "/home/${{ secrets.EC2_USERNAME }}/deploy"
+      - name: Deploy to k3s
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo kubectl apply -f /home/${{ secrets.EC2_USERNAME }}/deploy/k8s/
+            sudo kubectl rollout restart deployment/my-backend-app
