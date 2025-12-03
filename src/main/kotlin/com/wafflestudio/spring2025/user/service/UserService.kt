@@ -72,7 +72,7 @@ class UserService(
             redisTemplate.opsForValue().set(
                 key,
                 value,
-                Duration.ofMillis(expirationDurationMs)
+                Duration.ofMillis(expirationDurationMs),
             )
         }
     }
