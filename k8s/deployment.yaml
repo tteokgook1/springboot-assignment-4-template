@@ -23,7 +23,7 @@ spec:
           env:
             # --- Redis 설정 ---
             - name: SPRING_DATA_REDIS_HOST
-              value: "redis-1764763037-master"
+              value: "redis-service"
             - name: SPRING_DATA_REDIS_PORT
               value: "6379"
             - name: SPRING_DATA_REDIS_PASSWORD
@@ -33,7 +33,7 @@ spec:
                   key: redis-password
             # --- DB 설정 ---
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:mysql://mysql-1764763000:3306/seminar2025?useSSL=false&allowPublicKeyRetrieval=true"
+              value: "jdbc:mysql://mysql-service:3306/seminar2025?useSSL=false&allowPublicKeyRetrieval=true"
             - name: SPRING_DATASOURCE_USERNAME
               value: "root"
             - name: SPRING_DATASOURCE_PASSWORD
