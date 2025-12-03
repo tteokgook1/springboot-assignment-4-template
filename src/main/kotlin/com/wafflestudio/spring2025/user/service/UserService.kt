@@ -11,6 +11,7 @@ import com.wafflestudio.spring2025.user.repository.UserRepository
 import org.mindrot.jbcrypt.BCrypt
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.stereotype.Service
+import java.time.Duration
 
 @Service
 class UserService(
@@ -60,6 +61,19 @@ class UserService(
         user: User,
         token: String,
     ) {
-        TODO()
+        val expirationTimeMs = jwtTokenProvider.getExpiration(token)
+        val now = System.currentTimeMillis()
+        val expirationDurationMs = expirationTimeMs - now
+
+        if (expirationDurationMs > 0) {
+            val key = "jwt:blacklist:$token" // Use a prefix for clarity
+            val value = user.username // Store the username/userId as the value
+
+            redisTemplate.opsForValue().set(
+                key,
+                value,
+                Duration.ofMillis(expirationDurationMs)
+            )
+        }
     }
 }
